@@ -34,7 +34,7 @@ LINUX_PREREQ=('git' 'build-essential' 'python3-dev' 'python3-pip' 'nginx' 'postg
 else
 LINUX_PREREQ=('git' 'build-essential' 'python-dev' 'python-pip' 'nginx' 'postgresql' 'libpq-dev')
 fi
-PYTHON_PREREQ=('virtualenv' 'supervisor')
+PYTHON_PREREQ=('virtualenv' 'git+https://github.com/Supervisor/supervisor.git')
 
 # Test prerequisites
 echo "Checking if required packages are installed..."
@@ -42,7 +42,7 @@ declare -a MISSING
 for pkg in "${LINUX_PREREQ[@]}"
     do
         echo "Installing '$pkg'..."
-        apt-get -y install $pkg
+        sudo apt-get -y install $pkg
         if [ $? -ne 0 ]; then
             echo "Error installing system package '$pkg'"
             exit 1
@@ -52,7 +52,7 @@ for pkg in "${LINUX_PREREQ[@]}"
 for ppkg in "${PYTHON_PREREQ[@]}"
     do
         echo "Installing Python package '$ppkg'..."
-        pip install $ppkg
+        sudo pip3 install $ppkg
         if [ $? -ne 0 ]; then
             echo "Error installing python package '$ppkg'"
             exit 1
@@ -66,4 +66,3 @@ if [ ${#MISSING[@]} -ne 0 ]; then
 fi
 
 echo "All required packages have been installed!"
-
